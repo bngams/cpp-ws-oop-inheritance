@@ -2,34 +2,34 @@
 
 // Constructeur initialisant max_speed à 240 et mileage à 0
 Vehicule::Vehicule() {
-    max_speed = 240;
-    mileage = 0;
+    this->max_speed = 240;
+    this->mileage = 0;
 }
 
 // Setter pour max_speed avec validation
 void Vehicule::setmax_speed(int speed) {
     if (speed > 0 && speed <= 200) {
-        max_speed = speed;
+        this->max_speed = speed;
     } else {
-        max_speed = 240;
+        this->max_speed = 240;
     }
 }
 
 // Getter pour max_speed
 int Vehicule::getmax_speed() {
-    return max_speed;
+    return this->max_speed;
 }
 
 // Setter pour mileage avec validation
 void Vehicule::setmileage(int m) {
     if (m >= 0) {
-        mileage = m;
+        this->mileage = m;
     } else {
-        mileage = 0;
+        this->mileage = 0;
     }
 }
 
 // Getter pour mileage
 int Vehicule::getmileage() {
-    return mileage;
+    return this->mileage;
 }

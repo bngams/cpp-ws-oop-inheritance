@@ -2,17 +2,17 @@
 
 // Constructeur
 SchoolBus::SchoolBus(string sn) : Bus() {
-    school_name = sn;
+    this->school_name = sn;
 }
 
 // Getter pour school_name
 string SchoolBus::getSchoolName() {
-    return school_name;
+    return this->school_name;
 }
 
 // Setter pour school_name
 void SchoolBus::setSchoolName(string sn) {
-    school_name = sn;
+    this->school_name = sn;
 }
 
 // Méthode statique pour compter les SchoolBus avec capacité > 40

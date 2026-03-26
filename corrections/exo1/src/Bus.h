@@ -3,6 +3,7 @@
 
 #include "Vehicule.h"
 
+// caractère ":" indique que la classe Bus hérite de la classe Vehicule" 
 class Bus : public Vehicule {
 private:
     int seat_capacity;
