@@ -17,7 +17,7 @@ Le diagramme représente une hiérarchie de classes pour des objets géométriqu
   - Attribut: `cote`
   - Implémente les méthodes de calcul spécifiques au carré
 
-## Diagramme de classes
+## Diagramme de classes (version de base)
 
 ```mermaid
 classDiagram
@@ -309,3 +309,148 @@ Périmètre: 20
 - **Héritage**: Permet de réutiliser du code et de créer une hiérarchie logique
 - **Polymorphisme**: Permet de traiter différents objets de manière uniforme via l'interface commune
 - **Encapsulation**: Les détails d'implémentation sont cachés derrière une interface publique
+
+---
+
+## Version évolutive : Hiérarchie plus riche
+
+Pour un système plus extensible et réaliste, on peut créer une hiérarchie à plusieurs niveaux qui distingue les polygones des autres formes.
+
+### Diagramme UML de la version évolutive
+
+```mermaid
+classDiagram
+    class Shape {
+        <<abstract>>
+        +aire() double*
+        +perimetre() double*
+        +afficheInfo() void*
+        +getType() string*
+    }
+
+    class Polygon {
+        <<abstract>>
+        #int nb_cotes
+        +Polygon(int cotes)
+        +getNbCotes() int
+        +getType() string
+    }
+
+    class Circle {
+        -double rayon
+        +Circle(double r)
+        +getRayon() double
+        +aire() double
+        +perimetre() double
+        +afficheInfo() void
+        +getType() string
+    }
+
+    class Rectangle {
+        #double largeur
+        #double longueur
+        +Rectangle(double l, double lg)
+        +getLargeur() double
+        +getLongueur() double
+        +aire() double
+        +perimetre() double
+        +afficheInfo() void
+        +getType() string
+    }
+
+    class Square {
+        -double cote
+        +Square(double c)
+        +getCote() double
+        +aire() double
+        +perimetre() double
+        +afficheInfo() void
+        +getType() string
+    }
+
+    class Triangle {
+        -double cote_a
+        -double cote_b
+        -double cote_c
+        +Triangle(double a, double b, double c)
+        +aire() double
+        +perimetre() double
+        +afficheInfo() void
+        +getType() string
+    }
+
+    Shape <|-- Polygon : hérite
+    Shape <|-- Circle : hérite
+    Polygon <|-- Rectangle : hérite
+    Polygon <|-- Square : hérite
+    Polygon <|-- Triangle : hérite
+```
+
+### Avantages de cette architecture
+
+1. **Extensibilité** : Facile d'ajouter de nouveaux types de formes
+   - Nouveaux polygones (Pentagone, Hexagone, etc.) héritent de `Polygon`
+   - Nouvelles formes non-polygonales (Ellipse, etc.) héritent de `Shape`
+
+2. **Séparation des responsabilités** :
+   - `Shape` : Interface commune pour toutes les formes
+   - `Polygon` : Logique commune aux polygones (nombre de côtés)
+   - Classes concrètes : Implémentations spécifiques
+
+3. **Polymorphisme multi-niveaux** :
+   ```cpp
+   Shape* shapes[] = {
+       new Circle(5.0),
+       new Rectangle(3.0, 4.0),
+       new Triangle(3.0, 4.0, 5.0)
+   };
+
+   Polygon* polygons[] = {
+       new Rectangle(5.0, 10.0),
+       new Square(7.0),
+       new Triangle(6.0, 8.0, 10.0)
+   };
+   ```
+
+4. **Méthode `getType()`** : Permet l'identification dynamique du type
+   - Utile pour le tri et le filtrage
+   - Meilleure alternative à `typeid()` pour certains usages
+
+### Code source disponible
+
+L'implémentation complète de cette version évolutive est disponible dans le dossier [src/](src/).
+
+**Compilation et exécution :**
+```bash
+cd src/
+make
+./geometrie
+```
+
+### Exemple de sortie
+
+```
+=== Rectangle ===
+Largeur: 5
+Longueur: 10
+Nombre de côtés: 4
+Aire: 50
+Périmètre: 30
+
+=== Cercle ===
+Rayon: 4
+Aire: 50.2655
+Périmètre: 25.1327
+
+=== Triangle ===
+Côté A: 3
+Côté B: 4
+Côté C: 5
+Nombre de côtés: 3
+Aire: 6
+Périmètre: 12
+
+=== Statistiques globales ===
+Aire totale de toutes les formes: 105.274
+Périmètre total de toutes les formes: 96.8496
+```
